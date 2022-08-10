@@ -28,11 +28,18 @@ func NewTodoRepo(db *gorm.DB) TodoRepository {
 func (td *todoRepository) FindAll(filter parameters.FilterTodo) ([]*models.Todo, error) {
 
 	var todos []*models.Todo
-	if err := td.db.Limit(filter.Limit).Offset(filter.Offset).Order(filter.OrderField+" "+filter.OrderBy).Where(
-		"is_done = ?", filter.IsDone).Find(&todos).Error; err != nil {
-		return nil, err
-
+	tx := td.db.Limit(filter.GetLimit()).Offset(filter.GetOffest()).Order(filter.OrderQueryBy())
+	if filter.IsDone != nil {
+		tx.Where("is_done = ?", filter.IsDone)
 	}
+	if filter.Title != nil {
+		tx.Where("title LIKE ?", "%"+*filter.Title+"%")
+	}
+	err := tx.Find(&todos).Error
+	if err != nil {
+		return nil, err
+	}
+
 	return todos, nil
 }
 
