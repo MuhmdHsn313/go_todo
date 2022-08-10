@@ -1,11 +1,33 @@
 package parameters
 
 type FilterTodo struct {
-	Limit      uint   `url:"limit"`
-	Offset     uint   `url:"offset"`
-	IsDone     bool   `url:"is_done"`
-	OrderBy    string `url:"order_by"`
-	OrderField string `url:"order_field"`
+	Limit      *int    `url:"limit"`
+	Offset     *int    `url:"offset"`
+	IsDone     *bool   `url:"is_done"`
+	OrderBy    *string `url:"order_by"`
+	OrderField *string `url:"order_field"`
+	Title      *string `url:"title"`
+}
+
+func (filter *FilterTodo) GetLimit() int {
+	if filter.Limit == nil {
+		return 20
+	}
+	return *filter.Limit
+}
+func (filter *FilterTodo) GetOffest() int {
+	if filter.Limit == nil {
+		return 0
+	}
+	return *filter.Limit
+}
+
+func (filter *FilterTodo) OrderQueryBy() string {
+	if filter.OrderBy == nil || filter.OrderField == nil {
+		return `created_at desc`
+	} else {
+		return *filter.OrderBy + *filter.OrderField
+	}
 }
 
 type NewTodo struct {
