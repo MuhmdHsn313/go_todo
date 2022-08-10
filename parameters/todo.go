@@ -6,7 +6,7 @@ type FilterTodo struct {
 	IsDone     *bool   `url:"is_done"`
 	OrderBy    *string `url:"order_by"`
 	OrderField *string `url:"order_field"`
-	Title      *string
+	Title      *string `url:"title"`
 }
 
 func (filter *FilterTodo) GetLimit() int {
