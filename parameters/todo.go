@@ -1,8 +1,8 @@
 package parameters
 
 type FilterTodo struct {
-	Limit      uint   `url:"limit"`
-	Offset     uint   `url:"offset"`
+	Limit      int   `url:"limit"`
+	Offset     int   `url:"offset"`
 	IsDone     bool   `url:"is_done"`
 	OrderBy    string `url:"order_by"`
 	OrderField string `url:"order_field"`

@@ -2,7 +2,10 @@ module sample_rest_api
 
 go 1.18
 
-require github.com/kataras/iris/v12 v12.2.0-beta3
+require (
+	github.com/kataras/iris/v12 v12.2.0-beta3
+	gorm.io/gorm v1.23.8
+)
 
 require (
 	github.com/BurntSushi/toml v1.1.0 // indirect
@@ -68,6 +71,5 @@ require (
 	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/ini.v1 v1.66.6 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
-	gorm.io/gorm v1.23.8 // indirect
 	moul.io/http2curl v1.0.0 // indirect
 )
