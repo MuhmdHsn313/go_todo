@@ -30,7 +30,7 @@ func (td *todoRepository) FindAll(filter parameters.FilterTodo) ([]*models.Todo,
 	var todos []*models.Todo
 	tx := td.db.Limit(filter.GetLimit()).Offset(filter.GetOffest()).Order(filter.OrderQueryBy())
 	if filter.IsDone != nil {
-		tx.Where("is_done = ?", filter.IsDone)
+		tx.Where("is_done = ?", *filter.IsDone)
 	}
 	if filter.Title != nil {
 		tx.Where("title LIKE ?", "%"+*filter.Title+"%")
