@@ -24,9 +24,9 @@ func (filter *FilterTodo) GetOffest() int {
 
 func (filter *FilterTodo) OrderQueryBy() string {
 	if filter.OrderBy == nil || filter.OrderField == nil {
-		return `desc + created_at`
+		return `created_at desc`
 	} else {
-		return *filter.OrderBy + " " + *filter.OrderField
+		return *filter.OrderBy + *filter.OrderField
 	}
 }
 

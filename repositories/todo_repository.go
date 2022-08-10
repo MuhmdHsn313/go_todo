@@ -51,9 +51,10 @@ func (td *todoRepository) FindTodo(id uint) {
 }
 
 func (td *todoRepository) CreateTodo(params parameters.NewTodo) (*models.Todo, error) {
-	var todo models.Todo
-	todo.Title = params.Title
-	todo.Body = params.Body
+	todo := models.Todo{
+		Title: params.Title,
+		Body:  params.Body,
+	}
 	if err := td.db.Create(&todo).Error; err != nil {
 		return nil, err
 	}
@@ -71,31 +72,23 @@ func (td *todoRepository) UpdateTodo(id uint, params parameters.UpdateTodo) (*mo
 	if params.Body != nil {
 		todo.Body = *params.Body
 	}
-	if err := td.db.Save(&todo).Error; err != nil {
+	if err := td.db.Updates(&todo).Error; err != nil {
 		return nil, err
 	}
 	return &todo, nil
 }
 
 func (td *todoRepository) DeleteTodo(id uint) error {
-	var todo models.Todo
-	if err := td.db.First(&todo, id).Error; err != nil {
-		return err
-	}
-	if err := td.db.Delete(&todo).Error; err != nil {
-		return err
-	}
-	return nil
+	return td.db.Delete(&models.Todo{}, id).Error
 }
 
 func (td *todoRepository) CompleteTodo(id uint) error {
-
 	var todo models.Todo
 	if err := td.db.First(&todo, id).Error; err != nil {
 		return err
 	}
 	todo.IsDone = true
-	if err := td.db.Save(&todo).Error; err != nil {
+	if err := td.db.Updates(&todo).Error; err != nil {
 		return err
 	}
 	return nil
@@ -108,7 +101,7 @@ func (td *todoRepository) UncompleteTodo(id uint) error {
 		return err
 	}
 	todo.IsDone = false
-	if err := td.db.Save(&todo).Error; err != nil {
+	if err := td.db.Updates(&todo).Error; err != nil {
 		return err
 	}
 	return nil
