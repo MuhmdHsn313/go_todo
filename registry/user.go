@@ -14,5 +14,5 @@ func (r Registry) NewUserRepository() repositories.UserRepository {
 }
 
 func (r Registry) NewSessionRepository() repositories.SessionRepository {
-	return repositories.NewSessionRepo(r.db)
+	return repositories.NewSessionRepo(r.db, r.signer)
 }
