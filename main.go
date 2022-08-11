@@ -4,7 +4,6 @@ import "github.com/kataras/iris/v12"
 
 func main() {
 	app := newApp()
-
 	app.Listen(":8080")
 }
 
