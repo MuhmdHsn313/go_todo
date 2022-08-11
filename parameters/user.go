@@ -9,3 +9,8 @@ type NewUserParams struct {
 type NewSessionParams struct {
 	UserID uint
 }
+
+type LoginParams struct {
+	Email    string `json:"email" form:"email" validator:"required,email"`
+	Password string `json:"password" form:"password" validator:"required"`
+}

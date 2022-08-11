@@ -3,10 +3,10 @@ package models
 import "time"
 
 type User struct {
-	BaiscModel BaiscModel `gorm:"embedded"`
-	FullName   string     `json:"full_name" gorm:"not null"`
-	Email      string     `json:"email" gorm:"not null;unique"`
-	Password   string     `json:"password" gorm:"not null"`
+	BaiscModel `gorm:"embedded"`
+	FullName   string `json:"full_name" gorm:"not null"`
+	Email      string `json:"email" gorm:"not null;unique"`
+	Password   string `json:"password" gorm:"not null"`
 }
 
 type Session struct {

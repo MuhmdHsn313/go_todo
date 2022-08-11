@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"github.com/kataras/iris/v12/x/errors"
 	"sample_rest_api/models"
 	"sample_rest_api/parameters"
 
@@ -13,6 +14,7 @@ type userRepository struct {
 
 type UserRepository interface {
 	CreateUser(parameters.NewUserParams) (*models.User, error)
+	Login(params parameters.LoginParams) (uint, error)
 	FindUserByEmail(email string) (*models.User, error)
 	FindUserByID(id uint) (*models.User, error)
 }
@@ -47,4 +49,15 @@ func (ur *userRepository) FindUserByID(id uint) (*models.User, error) {
 		return nil, err
 	}
 	return &user, nil
+}
+
+func (ur *userRepository) Login(params parameters.LoginParams) (uint, error) {
+	user, err := ur.FindUserByEmail(params.Email)
+	if err != nil {
+		return 0, err
+	}
+	if user.Password == params.Password {
+		return user.ID, nil
+	}
+	return 0, errors.New("incorrect login data")
 }
