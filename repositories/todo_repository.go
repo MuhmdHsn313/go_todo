@@ -13,7 +13,7 @@ type todoRepository struct {
 
 type TodoRepository interface {
 	FindAll(filter parameters.FilterTodo) ([]*models.Todo, error)
-	FindTodo(id uint)
+	FindTodo(id uint) (*models.Todo, error)
 	CreateTodo(params parameters.NewTodo) (*models.Todo, error)
 	UpdateTodo(id uint, params parameters.UpdateTodo) (*models.Todo, error)
 	DeleteTodo(id uint) error
@@ -43,11 +43,12 @@ func (td *todoRepository) FindAll(filter parameters.FilterTodo) ([]*models.Todo,
 	return todos, nil
 }
 
-func (td *todoRepository) FindTodo(id uint) {
+func (td *todoRepository) FindTodo(id uint) (*models.Todo, error) {
 	var todo models.Todo
 	if err := td.db.First(&todo, id).Error; err != nil {
-		return
+		return nil, err
 	}
+	return &todo, nil
 }
 
 func (td *todoRepository) CreateTodo(params parameters.NewTodo) (*models.Todo, error) {
