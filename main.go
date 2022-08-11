@@ -1,12 +1,13 @@
 package main
 
 import (
-	"github.com/kataras/iris/v12"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
 	"sample_rest_api/datastore"
 	"sample_rest_api/registry"
 	"sample_rest_api/router"
+
+	"github.com/kataras/iris/v12"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 func main() {
@@ -19,8 +20,7 @@ func main() {
 }
 
 func newApp() *iris.Application {
-	app := iris.New()
-
+	app := iris.Default()
 	db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
 	if err != nil {
 		panic(err)
