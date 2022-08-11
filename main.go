@@ -1,6 +1,13 @@
 package main
 
-import "github.com/kataras/iris/v12"
+import (
+	"github.com/kataras/iris/v12"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
+	"sample_rest_api/datastore"
+	"sample_rest_api/registry"
+	"sample_rest_api/router"
+)
 
 func main() {
 	app := newApp()
@@ -13,6 +20,19 @@ func main() {
 
 func newApp() *iris.Application {
 	app := iris.New()
+
+	db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
+	if err != nil {
+		panic(err)
+	}
+
+	err = datastore.Mirgate(db)
+	if err != nil {
+		panic(err)
+	}
+
+	reg := registry.NewRegistry(db)
+	router.SetupRouters(app.APIBuilder, reg.NewAppController())
 
 	return app
 }
