@@ -2,15 +2,9 @@ package repositories
 
 import (
 	"github.com/kataras/iris/v12/middleware/jwt"
+	"gorm.io/gorm"
 	"sample_rest_api/models"
 	"sample_rest_api/parameters"
-	"time"
-
-	"gorm.io/gorm"
-)
-
-var (
-	secret = []byte("signature_hmac_secret_shared_key")
 )
 
 type UserClaims struct {
@@ -19,7 +13,8 @@ type UserClaims struct {
 }
 
 type sessionRepository struct {
-	db *gorm.DB
+	db     *gorm.DB
+	signer *jwt.Signer
 }
 
 type SessionRepository interface {
@@ -27,17 +22,16 @@ type SessionRepository interface {
 	FindSessionByID(id uint) (*models.Session, error)
 }
 
-func NewSessionRepo(db *gorm.DB) SessionRepository {
-	return &sessionRepository{db}
+func NewSessionRepo(db *gorm.DB, singer *jwt.Signer) SessionRepository {
+	return &sessionRepository{db, singer}
 }
 
 func (sr sessionRepository) GenerateSession(params parameters.NewSessionParams) (*models.Session, error) {
-	signer := jwt.NewSigner(jwt.HS256, secret, 10*time.Minute)
 	claims := UserClaims{
 		UserID: params.UserID,
 	}
 
-	token, err := signer.Sign(claims)
+	token, err := sr.signer.Sign(claims)
 	if err != nil {
 		return nil, err
 	}

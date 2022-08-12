@@ -4,10 +4,16 @@ import (
 	"sample_rest_api/datastore"
 	"sample_rest_api/registry"
 	"sample_rest_api/router"
+	"time"
 
 	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/middleware/jwt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+)
+
+const (
+	secret = "signature_hmac_secret_shared_key"
 )
 
 func main() {
@@ -31,7 +37,9 @@ func newApp() *iris.Application {
 		panic(err)
 	}
 
-	reg := registry.NewRegistry(db)
+	signer := jwt.NewSigner(jwt.HS256, []byte(secret), 10*time.Minute)
+
+	reg := registry.NewRegistry(db, signer)
 	router.SetupRouters(app.APIBuilder, reg.NewAppController())
 
 	return app
