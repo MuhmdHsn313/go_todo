@@ -4,7 +4,6 @@ go 1.18
 
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.0
-	github.com/iris-contrib/middleware/cors v0.0.0-20220726083828-c5d22e52fcaf
 	github.com/kataras/iris/v12 v12.2.0-beta4
 	gorm.io/driver/postgres v1.3.8
 	gorm.io/driver/sqlite v1.3.6

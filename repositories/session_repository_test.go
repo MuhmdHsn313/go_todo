@@ -1,11 +1,11 @@
 package repositories
 
 import (
+	"testing"
+
 	"github.com/DATA-DOG/go-sqlmock"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"sample_rest_api/parameters"
-	"testing"
 )
 
 func GetDB() (*gorm.DB, sqlmock.Sqlmock, error) {
@@ -34,20 +34,20 @@ func TestCreateSessionRepository(t *testing.T) {
 
 const UserId = 1
 
-func TestCreateNewSession(t *testing.T) {
-	db, mock, err := GetDB()
-	if err != nil {
-		t.Error(err)
-		return
-	}
+// func TestCreateNewSession(t *testing.T) {
+// 	db, mock, err := GetDB()
+// 	if err != nil {
+// 		t.Error(err)
+// 		return
+// 	}
 
-	repo := NewSessionRepo(db)
-	mock.ExpectPrepare("INSERT INTO SESSION (USER_ID,ACCESS_TOKEN) VALUES (1,'abcd') RETURN *")
-	session, err := repo.GenerateSession(parameters.NewSessionParams{UserID: UserId})
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	t.Log(session.AccessToken)
+// 	repo := NewSessionRepo(db)
+// 	mock.ExpectPrepare("INSERT INTO SESSION (USER_ID,ACCESS_TOKEN) VALUES (1,'abcd') RETURN *")
+// 	session, err := repo.GenerateSession(parameters.NewSessionParams{UserID: UserId})
+// 	if err != nil {
+// 		t.Error(err)
+// 		return
+// 	}
+// 	t.Log(session.AccessToken)
 
-}
+// }

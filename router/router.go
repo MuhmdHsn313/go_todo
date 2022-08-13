@@ -16,4 +16,5 @@ func SetupRouters(apiBuilder *router.APIBuilder, contoller controllers.AppContol
 
 	api := apiBuilder.Party("/api")
 	SetupUserRoutes(api, contoller)
+	SetupTodoRouter(api, contoller)
 }
