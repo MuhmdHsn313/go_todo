@@ -1,9 +1,10 @@
 package registry
 
 import (
+	"sample_rest_api/controllers"
+
 	"github.com/kataras/iris/v12/middleware/jwt"
 	"gorm.io/gorm"
-	"sample_rest_api/controllers"
 )
 
 type Registry struct {
@@ -18,5 +19,6 @@ func NewRegistry(db *gorm.DB, signer *jwt.Signer) Registry {
 func (r Registry) NewAppController() controllers.AppContoller {
 	return controllers.AppContoller{
 		UserController: r.NewUserController(),
+		TodoController: r.NewTodoController(),
 	}
 }

@@ -1,9 +1,10 @@
 package controllers
 
 import (
-	"github.com/kataras/iris/v12"
 	"sample_rest_api/parameters"
 	"sample_rest_api/repositories"
+
+	"github.com/kataras/iris/v12"
 )
 
 type userController struct {
@@ -30,6 +31,7 @@ func (c userController) CreateUser(ctx iris.Context) {
 
 	user, err := c.UserRepository.CreateUser(params)
 	if err != nil {
+		ctx.StopWithError(iris.StatusBadRequest, err)
 		return
 	}
 
